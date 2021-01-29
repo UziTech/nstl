@@ -1,0 +1,38 @@
+{
+  "name": "npm-package-template",
+  "version": "0.1.0",
+  "description": "NPM Package Template",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "jest --verbose",
+    "test:cover": "jest --coverage",
+    "lint": "eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UziTech/npm-package-template.git"
+  },
+  "keywords": [
+    "emmet",
+    "createelement",
+    "dom"
+  ],
+  "author": "Tony Brix <Tony@Brix.ninja> (https://Tony.Brix.ninja)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/UziTech/npm-package-template/issues"
+  },
+  "homepage": "https://github.com/UziTech/npm-package-template#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "@semantic-release/changelog": "^5.0.1",
+    "@semantic-release/commit-analyzer": "^8.0.1",
+    "@semantic-release/git": "^9.0.0",
+    "@semantic-release/github": "^7.2.0",
+    "@semantic-release/npm": "^7.0.10",
+    "@semantic-release/release-notes-generator": "^9.0.1",
+    "eslint": "^7.18.0",
+    "jest-cli": "^26.6.3",
+    "semantic-release": "^17.3.7"
+  }
+}
