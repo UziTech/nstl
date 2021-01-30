@@ -36,7 +36,6 @@
 		"no-shadow": 1,
 		"no-undef": 2,
 		"no-undefined": 2,
-		"no-sync": 1,
 		"no-var": 2,
 
 		"array-bracket-spacing": 2,

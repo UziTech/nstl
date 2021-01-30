@@ -1,8 +1,15 @@
 {
-  "name": "npm-package-template",
-  "version": "0.1.0",
-  "description": "NPM Package Template",
+  "name": "nstl",
+  "version": "1.0.0",
+  "description": "Install packages using the correct package manager",
   "main": "src/index.js",
+  "bin": {
+    "nstl": "bin/nstl"
+  },
+  "files": [
+    "bin/",
+    "src/"
+  ],
   "scripts": {
     "test": "jest --verbose",
     "test:cover": "jest --coverage",
@@ -10,7 +17,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/UziTech/npm-package-template.git"
+    "url": "git+https://github.com/UziTech/nstl.git"
   },
   "keywords": [
     "emmet",
@@ -20,10 +27,12 @@
   "author": "Tony Brix <Tony@Brix.ninja> (https://Tony.Brix.ninja)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/UziTech/npm-package-template/issues"
+    "url": "https://github.com/UziTech/nstl/issues"
   },
-  "homepage": "https://github.com/UziTech/npm-package-template#readme",
-  "dependencies": {},
+  "homepage": "https://github.com/UziTech/nstl#readme",
+  "dependencies": {
+    "yargs": "^16.2.0"
+  },
   "devDependencies": {
     "@semantic-release/changelog": "^5.0.1",
     "@semantic-release/commit-analyzer": "^8.0.1",

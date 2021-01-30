@@ -48,22 +48,22 @@ jobs:
       - name: Lint ✨
         run: npm run lint
 
-  # Release:
-  #   needs: [Test, Coverage, Lint]
-  #   if: |
-  #     github.ref == 'refs/heads/master' &&
-  #     github.event.repository.fork == false
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout Code
-  #       uses: actions/checkout@v2
-  #     - name: Install Dependencies
-  #       run: npm ci
-  #     - name: Release 🎉
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-  #       run: npx semantic-release
+  Release:
+    needs: [Test, Coverage, Lint]
+    if: |
+      github.ref == 'refs/heads/master' &&
+      github.event.repository.fork == false
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Install Dependencies
+        run: npm ci
+      - name: Release 🎉
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npx semantic-release
 
   Automerge:
     needs: [Test, Coverage, Lint]

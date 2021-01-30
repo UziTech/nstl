@@ -1,6 +1,17 @@
-[![Actions Status](https://github.com/UziTech/npm-package-template/workflows/tests/badge.svg)](https://github.com/UziTech/npm-package-template/actions)
-[![Dependency Status](https://david-dm.org/UziTech/npm-package-template.svg)](https://david-dm.org/UziTech/npm-package-template)
+[![Actions Status](https://github.com/UziTech/nstl/workflows/tests/badge.svg)](https://github.com/UziTech/nstl/actions)
+[![Dependency Status](https://david-dm.org/UziTech/nstl.svg)](https://david-dm.org/UziTech/nstl)
 
-# npm-package-template
+# nstl
 
-NPM Package Template
+Install packages with `npm`, `yarn`, or `pnpm` based on the lock file present in the repo.
+
+## Installation
+
+```sh
+npm i -g nstl
+```
+## Usage
+
+```sh
+nstl package-1 package-2
+```
