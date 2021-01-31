@@ -1,4 +1,4 @@
-const { spawn } = require("child_process");
+const { execSync } = require("child_process");
 const { existsSync } = require("fs");
 
 const lockFiles = {
@@ -26,5 +26,5 @@ module.exports = (packages) => {
 		}
 	}
 
-	spawn(command.trim(), { stdio: "inherit" });
+	execSync(command.trim(), { stdio: "inherit" });
 };

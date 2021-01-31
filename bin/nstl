@@ -9,5 +9,4 @@ if (argv.length > 0) {
 		argv.shift();
 	}
 }
-
 require("../")(argv);

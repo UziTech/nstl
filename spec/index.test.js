@@ -1,6 +1,6 @@
 jest.mock("child_process");
 jest.mock("fs");
-const { spawn } = require("child_process");
+const { execSync } = require("child_process");
 const { existsSync } = require("fs");
 const nstl = require("../");
 
@@ -12,13 +12,13 @@ function runTest(expected, packages = [], file = null) {
 			});
 		}
 		nstl(packages);
-		expect(spawn).toHaveBeenCalledWith(expected, {stdio: "inherit"});
+		expect(execSync).toHaveBeenCalledWith(expected, {stdio: "inherit"});
 	});
 }
 
 describe("index", () => {
 	beforeEach(() => {
-		spawn.mockImplementation(() => {});
+		execSync.mockImplementation(() => {});
 		existsSync.mockReset();
 	});
 
