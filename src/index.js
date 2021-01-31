@@ -25,6 +25,9 @@ module.exports = (packages) => {
 			command = getCommand(packages);
 		}
 	}
+	command = command.trim();
 
+	// eslint-disable-next-line no-console
+	console.log(`\n${command}`);
 	execSync(command.trim(), { stdio: "inherit" });
 };
