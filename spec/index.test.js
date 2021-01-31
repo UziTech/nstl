@@ -11,7 +11,11 @@ function runTest(expected, packages = [], file = null) {
 				return f.match(file) !== null;
 			});
 		}
+
 		nstl(packages);
+
+		// eslint-disable-next-line no-console
+		expect(console.log).toHaveBeenCalledWith(`\n${expected}`);
 		expect(execSync).toHaveBeenCalledWith(expected, {stdio: "inherit"});
 	});
 }
@@ -20,6 +24,7 @@ describe("index", () => {
 	beforeEach(() => {
 		execSync.mockImplementation(() => {});
 		existsSync.mockReset();
+		jest.spyOn(console, "log").mockImplementation(() => {});
 	});
 
 	runTest("npm install");
