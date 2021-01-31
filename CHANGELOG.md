@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/UziTech/nstl/compare/v1.0.1...v1.1.0) (2021-01-31)
+
+
+### Features
+
+* output command used ([aca2d66](https://github.com/UziTech/nstl/commit/aca2d66713b0b1256ac1f63a9bd0bd412ad21903))
+
 ## [1.0.1](https://github.com/UziTech/nstl/compare/v1.0.0...v1.0.1) (2021-01-31)
 
 
