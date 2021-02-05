@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/UziTech/nstl/compare/v1.1.3...v1.2.0) (2021-02-05)
+
+
+### Features
+
+* add remove/uninstall ([084d584](https://github.com/UziTech/nstl/commit/084d584aa31370a33fd3a79820c903a145d3fe51))
+
 ## [1.1.3](https://github.com/UziTech/nstl/compare/v1.1.2...v1.1.3) (2021-02-05)
 
 
