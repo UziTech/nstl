@@ -38,6 +38,12 @@ describe("index", () => {
 		runTest("pnpm", ["install"], [], pnpmLock);
 	});
 
+	describe("no command", () => {
+		runTest("npm", ["install", "p1", "p2"], ["p1", "p2"]);
+		runTest("yarn", ["add", "p1", "p2"], ["p1", "p2"], yarnLock);
+		runTest("pnpm", ["add", "p1", "p2"], ["p1", "p2"], pnpmLock);
+	});
+
 	describe("add", () => {
 		for (const cmd of ["add", ""]) {
 			runTest("npm", ["install", "p1", "p2"], [cmd, "p1", "p2"]);
