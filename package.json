@@ -30,9 +30,7 @@
     "url": "https://github.com/UziTech/nstl/issues"
   },
   "homepage": "https://github.com/UziTech/nstl#readme",
-  "dependencies": {
-    "yargs": "^16.2.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@semantic-release/changelog": "^5.0.1",
     "@semantic-release/commit-analyzer": "^8.0.1",

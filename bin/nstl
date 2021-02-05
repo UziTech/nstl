@@ -1,7 +1,3 @@
 #!/usr/bin/env node
 
-const yargs = require("yargs/yargs");
-const { hideBin } = require("yargs/helpers");
-const { _: argv } = yargs(hideBin(process.argv)).argv;
-
-require("../")(argv);
+require("../")(process.argv.slice(2));
