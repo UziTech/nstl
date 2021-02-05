@@ -2,12 +2,18 @@ const { spawnSync } = require("child_process");
 const { existsSync } = require("fs");
 
 function yarn(argv) {
-	let isInstall = argv.length === 0;
-	if (argv.length > 0 && ["install", "i"].includes(argv[0])) {
-		isInstall = true;
+	let command = argv.length === 0 ? "install" : "add";
+	if (isCommand("add", argv)) {
+		command = "add";
+		argv.shift();
+	} else if (isCommand("install", argv)) {
+		command = "install";
+		argv.shift();
+	} else if (isCommand("remove", argv)) {
+		command = "remove";
 		argv.shift();
 	}
-	argv.unshift(isInstall ? "install" : "add");
+	argv.unshift(command);
 
 	return {
 		command: "yarn",
@@ -16,12 +22,18 @@ function yarn(argv) {
 }
 
 function pnpm(argv) {
-	let isInstall = argv.length === 0;
-	if (argv.length > 0 && ["install", "i"].includes(argv[0])) {
-		isInstall = true;
+	let command = argv.length === 0 ? "install" : "add";
+	if (isCommand("add", argv)) {
+		command = "add";
+		argv.shift();
+	} else if (isCommand("install", argv)) {
+		command = "install";
+		argv.shift();
+	} else if (isCommand("remove", argv)) {
+		command = "remove";
 		argv.shift();
 	}
-	argv.unshift(isInstall ? "install" : "add");
+	argv.unshift(command);
 
 	return {
 		command: "pnpm",
@@ -30,15 +42,33 @@ function pnpm(argv) {
 }
 
 function npm(argv) {
-	if (argv.length > 0 && ["install", "add", "i"].includes(argv[0])) {
+	let command = "install";
+	if (isCommand("add", argv)) {
+		command = "install";
+		argv.shift();
+	} else if (isCommand("install", argv)) {
+		command = "install";
+		argv.shift();
+	} else if (isCommand("remove", argv)) {
+		command = "uninstall";
 		argv.shift();
 	}
-	argv.unshift("install");
+	argv.unshift(command);
 
 	return {
 		command: "npm",
 		args: argv,
 	};
+}
+
+function isCommand(command, argv) {
+	const aliasCommands = {
+		"add": ["add"],
+		"install": ["install", "i"],
+		"remove": ["uninstall", "un", "remove"],
+	};
+
+	return argv.length > 0 && aliasCommands[command].includes(argv[0]);
 }
 
 const lockFiles = {
