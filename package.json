@@ -1,6 +1,6 @@
 {
   "name": "nstl",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Install packages using the correct package manager",
   "main": "src/index.js",
   "bin": {
