@@ -1,3 +1,10 @@
+## [1.1.2](https://github.com/UziTech/nstl/compare/v1.1.1...v1.1.2) (2021-02-05)
+
+
+### Bug Fixes
+
+* allow other args with install ([3894f54](https://github.com/UziTech/nstl/commit/3894f5495afda3f28130bdbb0d5d5bcd9de0daa2))
+
 ## [1.1.1](https://github.com/UziTech/nstl/compare/v1.1.0...v1.1.1) (2021-02-05)
 
 
