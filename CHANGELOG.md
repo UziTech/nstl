@@ -1,3 +1,10 @@
+## [1.1.3](https://github.com/UziTech/nstl/compare/v1.1.2...v1.1.3) (2021-02-05)
+
+
+### Bug Fixes
+
+* remove yargs dependency ([119760a](https://github.com/UziTech/nstl/commit/119760a1513ca7628791086f48295833f960a5b9))
+
 ## [1.1.2](https://github.com/UziTech/nstl/compare/v1.1.1...v1.1.2) (2021-02-05)
 
 
