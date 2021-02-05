@@ -1,5 +1,4 @@
 [![Actions Status](https://github.com/UziTech/nstl/workflows/tests/badge.svg)](https://github.com/UziTech/nstl/actions)
-[![Dependency Status](https://david-dm.org/UziTech/nstl.svg)](https://david-dm.org/UziTech/nstl)
 
 # nstl
 
@@ -8,10 +7,10 @@ Install packages with `npm`, `yarn`, or `pnpm` based on the lock file present in
 ## Installation
 
 ```sh
-npm i -g nstl
+npm i -g nstl [yarn] [pnpm]
 ```
 ## Usage
 
 ```sh
-nstl package-1 package-2
+nstl [package-1] [package-2]
 ```
