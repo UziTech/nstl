@@ -63,7 +63,7 @@ function npm(argv) {
 
 function isCommand(command, argv) {
 	const aliasCommands = {
-		"add": ["add"],
+		"add": ["add", ""],
 		"install": ["install", "i"],
 		"remove": ["uninstall", "un", "remove"],
 	};

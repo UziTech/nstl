@@ -4,15 +4,17 @@ const { spawnSync } = require("child_process");
 const { existsSync } = require("fs");
 const nstl = require("../");
 
-function runTest(command, args, packages = [], file = null) {
-	test(`${command} ${args.join(" ")}`, () => {
+function runTest(command, args, argv = [], file = null) {
+	const nstlCmd = `nstl ${argv.filter(a => a).join(" ")}`.trim();
+	const cmd = `${command} ${args.filter(a => a).join(" ")}`.trim();
+	test(`${nstlCmd} -> ${cmd}`, () => {
 		if (file) {
 			existsSync.mockImplementation((f) => {
 				return f.match(file) !== null;
 			});
 		}
 
-		nstl(packages);
+		nstl(argv);
 
 		// eslint-disable-next-line no-console
 		expect(console.log).toHaveBeenCalledWith(`\n${command} ${args.join(" ")}\n`);
@@ -37,32 +39,26 @@ describe("index", () => {
 	});
 
 	describe("add", () => {
-		runTest("npm", ["install", "p1", "p2"], ["p1", "p2"]);
-		runTest("npm", ["install", "p1", "p2"], ["add", "p1", "p2"]);
-		runTest("yarn", ["add", "p1", "p2"], ["p1", "p2"], yarnLock);
-		runTest("yarn", ["add", "p1", "p2"], ["add", "p1", "p2"], yarnLock);
-		runTest("pnpm", ["add", "p1", "p2"], ["p1", "p2"], pnpmLock);
-		runTest("pnpm", ["add", "p1", "p2"], ["add", "p1", "p2"], pnpmLock);
+		for (const cmd of ["add", ""]) {
+			runTest("npm", ["install", "p1", "p2"], [cmd, "p1", "p2"]);
+			runTest("yarn", ["add", "p1", "p2"], [cmd, "p1", "p2"], yarnLock);
+			runTest("pnpm", ["add", "p1", "p2"], [cmd, "p1", "p2"], pnpmLock);
+		}
 	});
 
 	describe("install", () => {
-		runTest("npm", ["install", "p1", "p2"], ["i", "p1", "p2"]);
-		runTest("npm", ["install", "p1", "p2"], ["install", "p1", "p2"]);
-		runTest("yarn", ["install", "p1", "p2"], ["i", "p1", "p2"], yarnLock);
-		runTest("yarn", ["install", "p1", "p2"], ["install", "p1", "p2"], yarnLock);
-		runTest("pnpm", ["install", "p1", "p2"], ["i", "p1", "p2"], pnpmLock);
-		runTest("pnpm", ["install", "p1", "p2"], ["install", "p1", "p2"], pnpmLock);
+		for (const cmd of ["install", "i"]) {
+			runTest("npm", ["install", "p1", "p2"], [cmd, "p1", "p2"]);
+			runTest("yarn", ["install", "p1", "p2"], [cmd, "p1", "p2"], yarnLock);
+			runTest("pnpm", ["install", "p1", "p2"], [cmd, "p1", "p2"], pnpmLock);
+		}
 	});
 
 	describe("remove", () => {
-		runTest("npm", ["uninstall", "p1", "p2"], ["un", "p1", "p2"]);
-		runTest("npm", ["uninstall", "p1", "p2"], ["uninstall", "p1", "p2"]);
-		runTest("npm", ["uninstall", "p1", "p2"], ["remove", "p1", "p2"]);
-		runTest("yarn", ["remove", "p1", "p2"], ["un", "p1", "p2"], yarnLock);
-		runTest("yarn", ["remove", "p1", "p2"], ["uninstall", "p1", "p2"], yarnLock);
-		runTest("yarn", ["remove", "p1", "p2"], ["remove", "p1", "p2"], yarnLock);
-		runTest("pnpm", ["remove", "p1", "p2"], ["un", "p1", "p2"], pnpmLock);
-		runTest("pnpm", ["remove", "p1", "p2"], ["uninstall", "p1", "p2"], pnpmLock);
-		runTest("pnpm", ["remove", "p1", "p2"], ["remove", "p1", "p2"], pnpmLock);
+		for (const cmd of ["uninstall", "un", "remove"]) {
+			runTest("npm", ["uninstall", "p1", "p2"], [cmd, "p1", "p2"]);
+			runTest("yarn", ["remove", "p1", "p2"], [cmd, "p1", "p2"], yarnLock);
+			runTest("pnpm", ["remove", "p1", "p2"], [cmd, "p1", "p2"], pnpmLock);
+		}
 	});
 });
