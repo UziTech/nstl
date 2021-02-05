@@ -4,9 +4,4 @@ const yargs = require("yargs/yargs");
 const { hideBin } = require("yargs/helpers");
 const { _: argv } = yargs(hideBin(process.argv)).argv;
 
-if (argv.length > 0) {
-	if (["install", "add", "i"].includes(argv[0])) {
-		argv.shift();
-	}
-}
 require("../")(argv);
