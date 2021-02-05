@@ -2,7 +2,7 @@ const { spawnSync } = require("child_process");
 const { existsSync } = require("fs");
 
 function yarn(argv) {
-	let command = argv.length === 0 ? "install" : "add";
+	let command;
 	if (isCommand("add", argv)) {
 		command = "add";
 		argv.shift();
@@ -12,6 +12,8 @@ function yarn(argv) {
 	} else if (isCommand("remove", argv)) {
 		command = "remove";
 		argv.shift();
+	} else {
+		command = argv.length === 0 ? "install" : "add";
 	}
 	argv.unshift(command);
 
@@ -22,7 +24,7 @@ function yarn(argv) {
 }
 
 function pnpm(argv) {
-	let command = argv.length === 0 ? "install" : "add";
+	let command;
 	if (isCommand("add", argv)) {
 		command = "add";
 		argv.shift();
@@ -32,6 +34,8 @@ function pnpm(argv) {
 	} else if (isCommand("remove", argv)) {
 		command = "remove";
 		argv.shift();
+	} else {
+		command = argv.length === 0 ? "install" : "add";
 	}
 	argv.unshift(command);
 
@@ -42,7 +46,7 @@ function pnpm(argv) {
 }
 
 function npm(argv) {
-	let command = "install";
+	let command;
 	if (isCommand("add", argv)) {
 		command = "install";
 		argv.shift();
@@ -52,6 +56,8 @@ function npm(argv) {
 	} else if (isCommand("remove", argv)) {
 		command = "uninstall";
 		argv.shift();
+	} else {
+		command = "install";
 	}
 	argv.unshift(command);
 
