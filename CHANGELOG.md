@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/UziTech/nstl/compare/v1.1.0...v1.1.1) (2021-02-05)
+
+
+### Bug Fixes
+
+* improve docs ([#4](https://github.com/UziTech/nstl/issues/4)) ([cef931a](https://github.com/UziTech/nstl/commit/cef931a3c6c5ea3fe2e2ad1bf948ff2657ac87ba))
+
 # [1.1.0](https://github.com/UziTech/nstl/compare/v1.0.1...v1.1.0) (2021-01-31)
 
 
