@@ -1,3 +1,10 @@
+## [1.2.2](https://github.com/UziTech/nstl/compare/v1.2.1...v1.2.2) (2021-03-11)
+
+
+### Bug Fixes
+
+* update npm keywords ([83a5486](https://github.com/UziTech/nstl/commit/83a54868e6b693350c5d9e0c2465f72e1f091857))
+
 ## [1.2.1](https://github.com/UziTech/nstl/compare/v1.2.0...v1.2.1) (2021-02-05)
 
 
