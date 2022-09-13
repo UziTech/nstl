@@ -4,6 +4,16 @@
 
 Install packages with `npm`, `yarn`, or `pnpm` based on the lock file present in the repo.
 
+## Why?
+
+maintaining multiple repos with different packages managers has become very difficult. Not only do you have to remember which package manager to use, you have to remember which commands and options to use.
+
+NPM uses `install` to install all packages and new packages, while Yarn uses `install` for all packages and `add` for new packages. If you want to install dev packages NPM uses `--save-dev`, but Yarn uses `--dev`, but PNPM uses `--save-dev` for new packages and `--dev` for all packages (WTF!!!)
+
+![XKCD Standards](https://imgs.xkcd.com/comics/standards.png)
+
+Unfortunately someone has to do it.
+
 ## Installation
 
 ```sh
