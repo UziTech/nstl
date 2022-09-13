@@ -36,6 +36,7 @@ function yarn({command, options, packages}) {
 }
 
 function npm({command, options, packages}) {
+	/* istanbul ignore else : no other commands yet */
 	if (command === "add") {
 		command = "install";
 	} else if (command === "remove") {
@@ -43,10 +44,12 @@ function npm({command, options, packages}) {
 	}
 
 	options = options.map(opt => {
+		/* istanbul ignore else : --dev is only options for now */
 		if (opt === "--dev") {
 			return "--save-dev";
 		}
 
+		/* istanbul ignore next : no other options yet */
 		return opt;
 	});
 
