@@ -1,80 +1,93 @@
 const { spawnSync } = require("child_process");
 const { existsSync } = require("fs");
 
-function yarn(argv) {
-	let command;
-	if (isCommand("add", argv)) {
-		command = "add";
-		argv.shift();
-	} else if (isCommand("install", argv)) {
+function pnpm({command, options, packages}) {
+	if (command === "add" && packages.length === 0) {
 		command = "install";
-		argv.shift();
-	} else if (isCommand("remove", argv)) {
-		command = "remove";
-		argv.shift();
-	} else {
-		command = argv.length === 0 ? "install" : "add";
 	}
-	argv.unshift(command);
 
-	return {
-		command: "yarn",
-		args: argv,
-	};
-}
+	options = options.map(opt => {
+		if (packages.length > 0 && opt === "--dev") {
+			return "--save-dev";
+		}
 
-function pnpm(argv) {
-	let command;
-	if (isCommand("add", argv)) {
-		command = "add";
-		argv.shift();
-	} else if (isCommand("install", argv)) {
-		command = "install";
-		argv.shift();
-	} else if (isCommand("remove", argv)) {
-		command = "remove";
-		argv.shift();
-	} else {
-		command = argv.length === 0 ? "install" : "add";
-	}
-	argv.unshift(command);
+		return opt;
+	});
+
+	const args = [command, ...options, ...packages];
 
 	return {
 		command: "pnpm",
-		args: argv,
+		args,
 	};
 }
 
-function npm(argv) {
-	let command;
-	if (isCommand("add", argv)) {
-		command = "install";
-		argv.shift();
-	} else if (isCommand("install", argv)) {
-		command = "install";
-		argv.shift();
-	} else if (isCommand("remove", argv)) {
-		command = "uninstall";
-		argv.shift();
-	} else {
+function yarn({command, options, packages}) {
+	if (command === "add" && packages.length === 0) {
 		command = "install";
 	}
-	argv.unshift(command);
+
+	const args = [command, ...options, ...packages];
+
+	return {
+		command: "yarn",
+		args,
+	};
+}
+
+function npm({command, options, packages}) {
+	if (command === "add") {
+		command = "install";
+	} else if (command === "remove") {
+		command = "uninstall";
+	}
+
+	options = options.map(opt => {
+		if (opt === "--dev") {
+			return "--save-dev";
+		}
+
+		return opt;
+	});
+
+	const args = [command, ...options, ...packages];
 
 	return {
 		command: "npm",
-		args: argv,
+		args,
 	};
 }
 
-function isCommand(command, argv) {
-	const aliasCommands = {
-		"add": ["add", ""],
-		"install": ["install", "i"],
-		"remove": ["uninstall", "un", "remove"],
-	};
+function parseArgs(argv) {
+	let command;
+	if (argv.length === 0) {
+		command = "add";
+	} else if (["uninstall", "un", "remove"].includes(argv[0])) {
+		command = "remove";
+		argv.shift();
+	} else if (["", "add", "install", "i"].includes(argv[0])) {
+		command = "add";
+		argv.shift();
+	} else {
+		// no command
+		command = "add";
+	}
 
-	return argv.length > 0 && aliasCommands[command].includes(argv[0]);
+	const options = [];
+	for (let i = 0; i < argv.length; i++) {
+		if (["--save-dev", "--dev", "-D"].includes(argv[i])) {
+			options.push("--dev");
+			argv.splice(i, 1);
+		}
+	}
+
+	const packages = [...argv];
+
+	return {
+		command,
+		options,
+		packages,
+	};
 }
 
 const lockFiles = {
@@ -83,16 +96,18 @@ const lockFiles = {
 };
 
 module.exports = (argv) => {
-	let command, args;
+	let func;
 	for (const file in lockFiles) {
 		if (existsSync(file)) {
-			({command, args} = lockFiles[file](argv));
+			func = lockFiles[file];
 			break;
 		}
 	}
-	if (!command) {
-		({command, args} = npm(argv));
+	if (!func) {
+		func = npm;
 	}
+
+	const {command, args} = func(parseArgs(argv));
 
 	// eslint-disable-next-line no-console
 	console.log(`\n${command} ${args.join(" ")}\n`);

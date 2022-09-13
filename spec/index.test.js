@@ -55,8 +55,8 @@ describe("index", () => {
 	describe("install", () => {
 		for (const cmd of ["install", "i"]) {
 			runTest("npm", ["install", "p1", "p2"], [cmd, "p1", "p2"]);
-			runTest("yarn", ["install", "p1", "p2"], [cmd, "p1", "p2"], yarnLock);
-			runTest("pnpm", ["install", "p1", "p2"], [cmd, "p1", "p2"], pnpmLock);
+			runTest("yarn", ["add", "p1", "p2"], [cmd, "p1", "p2"], yarnLock);
+			runTest("pnpm", ["add", "p1", "p2"], [cmd, "p1", "p2"], pnpmLock);
 		}
 	});
 
@@ -65,6 +65,20 @@ describe("index", () => {
 			runTest("npm", ["uninstall", "p1", "p2"], [cmd, "p1", "p2"]);
 			runTest("yarn", ["remove", "p1", "p2"], [cmd, "p1", "p2"], yarnLock);
 			runTest("pnpm", ["remove", "p1", "p2"], [cmd, "p1", "p2"], pnpmLock);
+		}
+	});
+
+	describe("--dev", () => {
+		for (const opt of ["--save-dev", "--dev", "-D"]) {
+			runTest("npm", ["install", "--save-dev", "p1", "p2"], ["i", opt, "p1", "p2"]);
+			runTest("yarn", ["add", "--dev", "p1", "p2"], ["i", opt, "p1", "p2"], yarnLock);
+			runTest("pnpm", ["add", "--save-dev", "p1", "p2"], ["i", opt, "p1", "p2"], pnpmLock);
+			runTest("npm", ["uninstall", "--save-dev", "p1", "p2"], ["un", opt, "p1", "p2"]);
+			runTest("yarn", ["remove", "--dev", "p1", "p2"], ["un", opt, "p1", "p2"], yarnLock);
+			runTest("pnpm", ["remove", "--save-dev", "p1", "p2"], ["un", opt, "p1", "p2"], pnpmLock);
+			runTest("npm", ["install", "--save-dev"], ["i", opt]);
+			runTest("yarn", ["install", "--dev"], ["i", opt], yarnLock);
+			runTest("pnpm", ["install", "--dev"], ["i", opt], pnpmLock);
 		}
 	});
 });
