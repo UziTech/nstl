@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/UziTech/nstl/compare/v1.2.2...v1.3.0) (2022-09-13)
+
+
+### Features
+
+* add --dev options ([e24a137](https://github.com/UziTech/nstl/commit/e24a137fa49874418016fc5be11826b3d02e2c1b))
+
 ## [1.2.2](https://github.com/UziTech/nstl/compare/v1.2.1...v1.2.2) (2021-03-11)
 
 
