@@ -39,6 +39,13 @@ nstl package-1 package-2
 nstl install package-1 package-2
 ```
 
+### Add Dev Dependencies
+
+Add dev dependencies with `--save-dev`, `--dev`, or `-D`:
+
+```sh
+nstl --dev package-1 package-2
+```
 ### Remove Dependencies
 
 Remove dependencies with `remove`, `uninstall`, or `un`:
