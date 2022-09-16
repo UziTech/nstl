@@ -92,12 +92,6 @@ describe("index", () => {
 	});
 
 	describe("--dev --exact", () => {
-		runTest("npm", ["install", "--save-dev", "--save-exact", "p1", "p2"], ["i", "--dev", "--exact", "p1", "p2"]);
-		runTest("yarn", ["add", "--dev", "--exact", "p1", "p2"], ["i", "--dev", "--exact", "p1", "p2"], yarnLock);
-		runTest("pnpm", ["add", "--save-dev", "--save-exact", "p1", "p2"], ["i", "--dev", "--exact", "p1", "p2"], pnpmLock);
-		runTest("npm", ["uninstall", "--save-dev", "--save-exact", "p1", "p2"], ["un", "--dev", "--exact", "p1", "p2"]);
-		runTest("yarn", ["remove", "--dev", "--exact", "p1", "p2"], ["un", "--dev", "--exact", "p1", "p2"], yarnLock);
-		runTest("pnpm", ["remove", "--save-dev", "--save-exact", "p1", "p2"], ["un", "--dev", "--exact", "p1", "p2"], pnpmLock);
 		runTest("npm", ["install", "--save-dev", "--save-exact"], ["i", "--dev", "--exact"]);
 		runTest("yarn", ["install", "--dev", "--exact"], ["i", "--dev", "--exact"], yarnLock);
 		runTest("pnpm", ["install", "--dev", "--exact"], ["i", "--dev", "--exact"], pnpmLock);
