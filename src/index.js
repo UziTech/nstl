@@ -98,15 +98,13 @@ function npm({command, options, packages}) {
 }
 
 function getAlias(aliases, selection) {
-	function curry(prop) {
-		const alias = aliases[prop];
+	function curried(prop) {
 		if (!(prop in aliases)) {
-			// no alias return selection
 			return prop;
 		}
 
+		const alias = aliases[prop];
 		if (typeof alias === "function") {
-
 			return alias();
 		}
 
@@ -114,28 +112,11 @@ function getAlias(aliases, selection) {
 	}
 
 	if (selection) {
-		return curry(selection);
+		return curried(selection);
 	}
 
-	return curry;
+	return curried;
 }
-
-const cmdAlias = {
-	"add": ["add", "install", "i"],
-	"remove": ["uninstall", "un", "remove"],
-};
-
-const optAliases = {
-	"--dev": ["--save-dev", "--dev", "-D"],
-	"--no-dev": ["--no-dev", "--ignore-dev"],
-	"--optional": ["--save-optional", "--optional", "-O"],
-	"--no-optional": ["--no-optional", "--ignore-optional"],
-	"--peer": ["--save-peer", "--peer", "-P"],
-	"--no-peer": ["--no-peer", "--ignore-peer"],
-	"--exact": ["--save-exact", "--exact", "-E"],
-	"--tilde": ["--save-tilde", "--tilde", "-T"],
-	"--global": ["--global", "-g"],
-};
 
 function parseArgs(argv) {
 	let command;
@@ -143,6 +124,11 @@ function parseArgs(argv) {
 	if (argv.length === 0) {
 		command = "add";
 	} else {
+		const cmdAlias = {
+			"add": ["add", "install", "i"],
+			"remove": ["uninstall", "un", "remove"],
+		};
+
 		for (const cmd in cmdAlias) {
 			const aliases = cmdAlias[cmd];
 			if (aliases.includes(argv[0])) {
@@ -157,14 +143,25 @@ function parseArgs(argv) {
 		command = "add";
 	}
 
+	const optAliases = {
+		"--dev": ["--save-dev", "--dev", "-D"],
+		"--no-dev": ["--no-dev", "--ignore-dev"],
+		"--optional": ["--save-optional", "--optional", "-O"],
+		"--no-optional": ["--no-optional", "--ignore-optional"],
+		"--peer": ["--save-peer", "--peer", "-P"],
+		"--no-peer": ["--no-peer", "--ignore-peer"],
+		"--exact": ["--save-exact", "--exact", "-E"],
+		"--tilde": ["--save-tilde", "--tilde", "-T"],
+		"--global": ["--global", "-g"],
+	};
+
 	const options = [];
 	for (let i = 0; i < argv.length; i++) {
 		for (const opt in optAliases) {
 			const aliases = optAliases[opt];
 			if (aliases.includes(argv[0])) {
 				options.push(opt);
-				argv.splice(i, 1);
-				i--;
+				argv.splice(i--, 1);
 				break;
 			}
 		}
