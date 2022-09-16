@@ -10,7 +10,7 @@ Maintaining multiple repos with different packages managers has become very diff
 
 NPM uses `install` to install all packages and new packages, while Yarn uses `install` for all packages and `add` for new packages. If you want to install dev packages NPM uses `--save-dev`, but Yarn uses `--dev`, but PNPM uses `--save-dev` for new packages and `--dev` for all packages (WTF!!!)
 
-![XKCD Standards](https://imgs.xkcd.com/comics/standards.png)
+[![XKCD Standards](https://imgs.xkcd.com/comics/standards.png)](https://xkcd.com/927/)
 
 Unfortunately someone has to do it.
 
