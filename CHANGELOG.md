@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/UziTech/nstl/compare/v1.3.0...v1.4.0) (2022-09-16)
+
+
+### Features
+
+* add more options ([#127](https://github.com/UziTech/nstl/issues/127)) ([1b59ca1](https://github.com/UziTech/nstl/commit/1b59ca12aa64c9c0aebb03040f0c1b9171f151e5))
+
 # [1.3.0](https://github.com/UziTech/nstl/compare/v1.2.2...v1.3.0) (2022-09-13)
 
 
