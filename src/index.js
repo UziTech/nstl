@@ -11,9 +11,10 @@ function pnpm({command, options, packages}) {
 			"--dev": "--save-dev",
 			"--exact": "--save-exact",
 			"--optional": "--save-optional",
+			"--peer": "--save-peer",
 		};
 
-		options = options.map(opt => optionMap[opt]);
+		options = options.map(getAlias(optionMap));
 	}
 
 	const args = [command, ...options, ...packages];
@@ -47,11 +48,16 @@ function npm({command, options, packages}) {
 		"--dev": "--save-dev",
 		"--exact": "--save-exact",
 		"--optional": "--save-optional",
+		"--peer": () => {
+			// eslint-disable-next-line no-console
+			console.error("NPM doesn't have a --save-peer option");
+			return "--no-save";
+		},
 	};
 
-	command = commandMap[command];
+	command = getAlias(commandMap, command);
 
-	options = options.map(opt => optionMap[opt]);
+	options = options.map(getAlias(optionMap));
 
 	const args = [command, ...options, ...packages];
 
@@ -59,6 +65,23 @@ function npm({command, options, packages}) {
 		command: "npm",
 		args,
 	};
+}
+
+function getAlias(aliases, selection) {
+	function curry(prop) {
+		const alias = aliases[prop];
+		if (typeof alias === "function") {
+			return alias();
+		}
+
+		return alias;
+	}
+
+	if (selection) {
+		return curry(selection);
+	}
+
+	return curry;
 }
 
 const cmdAlias = {
@@ -70,6 +93,7 @@ const optAliases = {
 	"--dev": ["--save-dev", "--dev", "-D"],
 	"--exact": ["--save-exact", "--exact", "-E"],
 	"--optional": ["--save-optional", "--optional", "-O"],
+	"--peer": ["--save-peer", "--peer", "-P"],
 };
 
 function parseArgs(argv) {

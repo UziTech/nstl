@@ -104,4 +104,18 @@ describe("index", () => {
 			runTest("pnpm", ["install", "--optional"], ["i", opt], pnpmLock);
 		}
 	});
+
+	describe("--peer", () => {
+		for (const opt of ["--save-peer", "--peer", "-P"]) {
+			runTest("npm", ["install", "--no-save", "p1", "p2"], ["i", opt, "p1", "p2"]);
+			runTest("yarn", ["add", "--peer", "p1", "p2"], ["i", opt, "p1", "p2"], yarnLock);
+			runTest("pnpm", ["add", "--save-peer", "p1", "p2"], ["i", opt, "p1", "p2"], pnpmLock);
+			runTest("npm", ["uninstall", "--no-save", "p1", "p2"], ["un", opt, "p1", "p2"]);
+			runTest("yarn", ["remove", "--peer", "p1", "p2"], ["un", opt, "p1", "p2"], yarnLock);
+			runTest("pnpm", ["remove", "--save-peer", "p1", "p2"], ["un", opt, "p1", "p2"], pnpmLock);
+			runTest("npm", ["install", "--no-save"], ["i", opt]);
+			runTest("yarn", ["install", "--peer"], ["i", opt], yarnLock);
+			runTest("pnpm", ["install", "--peer"], ["i", opt], pnpmLock);
+		}
+	});
 });
