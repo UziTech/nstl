@@ -63,3 +63,17 @@ Remove dependencies with `remove`, `uninstall`, or `un`:
 ```sh
 nstl uninstall package-1 package-2
 ```
+
+## Options
+
+| Option | Aliases | Description |
+|--------|---------|-------------|
+| `--dev`  | `--save-dev`, `-D` | Save as `devDependecies`, or only install `devDepedencies` when installing all dependecies. |
+| `--no-dev` | `--ignore-dev` | Ignore `devDependencies` when installing all packages. |
+| `--optional` | `--save-optional`, `-O` | Save as `optionalDependencies`, or only install `optionalDependencies` when installing all dependencies. |
+| `--no-optional` | `--ignore-optional` | Ignore `optionalDependencies` when installing all packages. |
+| `--peer`  | `--save-peer`, `-P` | Save as `peerDependecies`, or only install `peerDepedencies` when installing all dependecies. |
+| `--no-peer` | `--ignore-peer` | Ignore `peerDependencies` when installing all packages. |
+| `--exact` | `--save-exact`, `-E` | Save exact version of dependency. |
+| `--tilde` | `--save-tilde`, `-T` | Save tilde (`~`) version of dependency. |
+| `--global` | `-g` | Save global dependency. Fails for Yarn. |
