@@ -1,18 +1,19 @@
-const { spawnSync } = require("child_process");
-const { existsSync } = require("fs");
+const { spawnSync } = require("node:child_process");
+const { existsSync } = require("node:fs");
 
 function pnpm({command, options, packages}) {
 	if (command === "add" && packages.length === 0) {
 		command = "install";
 	}
 
-	options = options.map(opt => {
-		if (packages.length > 0 && opt === "--dev") {
-			return "--save-dev";
-		}
+	if (command === "add" || command === "remove") {
+		const optionMap = {
+			"--dev": "--save-dev",
+			"--exact": "--save-exact",
+		};
 
-		return opt;
-	});
+		options = options.map(opt => optionMap[opt]);
+	}
 
 	const args = [command, ...options, ...packages];
 
@@ -36,22 +37,19 @@ function yarn({command, options, packages}) {
 }
 
 function npm({command, options, packages}) {
-	/* istanbul ignore else : no other commands yet */
-	if (command === "add") {
-		command = "install";
-	} else if (command === "remove") {
-		command = "uninstall";
-	}
+	const commandMap = {
+		"add": "install",
+		"remove": "uninstall",
+	};
 
-	options = options.map(opt => {
-		/* istanbul ignore else : --dev is only options for now */
-		if (opt === "--dev") {
-			return "--save-dev";
-		}
+	const optionMap = {
+		"--dev": "--save-dev",
+		"--exact": "--save-exact",
+	};
 
-		/* istanbul ignore next : no other options yet */
-		return opt;
-	});
+	command = commandMap[command];
+
+	options = options.map(opt => optionMap[opt]);
 
 	const args = [command, ...options, ...packages];
 
@@ -61,26 +59,46 @@ function npm({command, options, packages}) {
 	};
 }
 
+const cmdAlias = {
+	"add": ["add", "install", "i"],
+	"remove": ["uninstall", "un", "remove"],
+};
+
+const optAliases = {
+	"--dev": ["--save-dev", "--dev", "-D"],
+	"--exact": ["--save-exact", "--exact", "-E"],
+};
+
 function parseArgs(argv) {
 	let command;
+
 	if (argv.length === 0) {
 		command = "add";
-	} else if (["uninstall", "un", "remove"].includes(argv[0])) {
-		command = "remove";
-		argv.shift();
-	} else if (["", "add", "install", "i"].includes(argv[0])) {
-		command = "add";
-		argv.shift();
 	} else {
-		// no command
+		for (const cmd in cmdAlias) {
+			const aliases = cmdAlias[cmd];
+			if (aliases.includes(argv[0])) {
+				command = cmd;
+				argv.shift();
+				break;
+			}
+		}
+	}
+
+	if (!command) {
 		command = "add";
 	}
 
 	const options = [];
 	for (let i = 0; i < argv.length; i++) {
-		if (["--save-dev", "--dev", "-D"].includes(argv[i])) {
-			options.push("--dev");
-			argv.splice(i, 1);
+		for (const opt in optAliases) {
+			const aliases = optAliases[opt];
+			if (aliases.includes(argv[0])) {
+				options.push(opt);
+				argv.splice(i, 1);
+				// i--;
+				break;
+			}
 		}
 	}
 

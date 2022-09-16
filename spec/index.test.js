@@ -1,7 +1,7 @@
-jest.mock("child_process");
-jest.mock("fs");
-const { spawnSync } = require("child_process");
-const { existsSync } = require("fs");
+jest.mock("node:child_process");
+jest.mock("node:fs");
+const { spawnSync } = require("node:child_process");
+const { existsSync } = require("node:fs");
 const nstl = require("../");
 
 function runTest(command, args, argv = [], file = null) {
@@ -44,19 +44,14 @@ describe("index", () => {
 		runTest("pnpm", ["add", "p1", "p2"], ["p1", "p2"], pnpmLock);
 	});
 
-	describe("add", () => {
-		for (const cmd of ["add", ""]) {
-			runTest("npm", ["install", "p1", "p2"], [cmd, "p1", "p2"]);
-			runTest("yarn", ["add", "p1", "p2"], [cmd, "p1", "p2"], yarnLock);
-			runTest("pnpm", ["add", "p1", "p2"], [cmd, "p1", "p2"], pnpmLock);
-		}
-	});
-
 	describe("install", () => {
-		for (const cmd of ["install", "i"]) {
+		for (const cmd of ["add", "install", "i"]) {
 			runTest("npm", ["install", "p1", "p2"], [cmd, "p1", "p2"]);
 			runTest("yarn", ["add", "p1", "p2"], [cmd, "p1", "p2"], yarnLock);
 			runTest("pnpm", ["add", "p1", "p2"], [cmd, "p1", "p2"], pnpmLock);
+			runTest("npm", ["install"], [cmd]);
+			runTest("yarn", ["install"], [cmd], yarnLock);
+			runTest("pnpm", ["install"], [cmd], pnpmLock);
 		}
 	});
 
@@ -79,6 +74,20 @@ describe("index", () => {
 			runTest("npm", ["install", "--save-dev"], ["i", opt]);
 			runTest("yarn", ["install", "--dev"], ["i", opt], yarnLock);
 			runTest("pnpm", ["install", "--dev"], ["i", opt], pnpmLock);
+		}
+	});
+
+	describe("--exact", () => {
+		for (const opt of ["--save-exact", "--exact", "-E"]) {
+			runTest("npm", ["install", "--save-exact", "p1", "p2"], ["i", opt, "p1", "p2"]);
+			runTest("yarn", ["add", "--exact", "p1", "p2"], ["i", opt, "p1", "p2"], yarnLock);
+			runTest("pnpm", ["add", "--save-exact", "p1", "p2"], ["i", opt, "p1", "p2"], pnpmLock);
+			runTest("npm", ["uninstall", "--save-exact", "p1", "p2"], ["un", opt, "p1", "p2"]);
+			runTest("yarn", ["remove", "--exact", "p1", "p2"], ["un", opt, "p1", "p2"], yarnLock);
+			runTest("pnpm", ["remove", "--save-exact", "p1", "p2"], ["un", opt, "p1", "p2"], pnpmLock);
+			runTest("npm", ["install", "--save-exact"], ["i", opt]);
+			runTest("yarn", ["install", "--exact"], ["i", opt], yarnLock);
+			runTest("pnpm", ["install", "--exact"], ["i", opt], pnpmLock);
 		}
 	});
 });
