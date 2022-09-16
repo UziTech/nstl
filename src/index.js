@@ -10,6 +10,7 @@ function pnpm({command, options, packages}) {
 		const optionMap = {
 			"--dev": "--save-dev",
 			"--exact": "--save-exact",
+			"--optional": "--save-optional",
 		};
 
 		options = options.map(opt => optionMap[opt]);
@@ -45,6 +46,7 @@ function npm({command, options, packages}) {
 	const optionMap = {
 		"--dev": "--save-dev",
 		"--exact": "--save-exact",
+		"--optional": "--save-optional",
 	};
 
 	command = commandMap[command];
@@ -67,6 +69,7 @@ const cmdAlias = {
 const optAliases = {
 	"--dev": ["--save-dev", "--dev", "-D"],
 	"--exact": ["--save-exact", "--exact", "-E"],
+	"--optional": ["--save-optional", "--optional", "-O"],
 };
 
 function parseArgs(argv) {
