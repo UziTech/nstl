@@ -4,14 +4,28 @@ const { existsSync } = require("node:fs");
 function pnpm({command, options, packages}) {
 	if (command === "add" && packages.length === 0) {
 		command = "install";
-	}
 
-	if (command === "add" || command === "remove") {
+		const optionMap = {
+			"--no-dev": "--prod",
+			"--no-optional": "--no-optional",
+			"--no-peer": () => {
+				// eslint-disable-next-line no-console
+				console.log("PNPM does not install peer dependencies.");
+			},
+		};
+
+		options = options.map(getAlias(optionMap));
+	} else {
 		const optionMap = {
 			"--dev": "--save-dev",
-			"--exact": "--save-exact",
 			"--optional": "--save-optional",
 			"--peer": "--save-peer",
+			"--exact": "--save-exact",
+			"--tilde": () => {
+				// eslint-disable-next-line no-console
+				console.error("PNPM doesn't have a --tilde option. You will have to manually edit the dependency version.");
+				return "--save-exact";
+			},
 		};
 
 		options = options.map(getAlias(optionMap));
@@ -30,6 +44,14 @@ function yarn({command, options, packages}) {
 		command = "install";
 	}
 
+	const optionMap = {
+		"--global": () => {
+			throw new Error("Yarn doesn't install global dependencies.");
+		},
+	};
+
+	options = options.map(getAlias(optionMap));
+
 	const args = [command, ...options, ...packages];
 
 	return {
@@ -46,12 +68,20 @@ function npm({command, options, packages}) {
 
 	const optionMap = {
 		"--dev": "--save-dev",
-		"--exact": "--save-exact",
+		"--no-dev": "--omit dev",
 		"--optional": "--save-optional",
+		"--no-optional": "--omit optional",
 		"--peer": () => {
 			// eslint-disable-next-line no-console
 			console.error("NPM doesn't have a --save-peer option. Dependencies will be installed but not saved.");
 			return "--no-save";
+		},
+		"--no-peer": "--omit peer",
+		"--exact": "--save-exact",
+		"--tilde": () => {
+			// eslint-disable-next-line no-console
+			console.error("NPM doesn't have a --tilde option. You will have to manually edit the dependency version.");
+			return "--save-exact";
 		},
 	};
 
@@ -70,7 +100,13 @@ function npm({command, options, packages}) {
 function getAlias(aliases, selection) {
 	function curry(prop) {
 		const alias = aliases[prop];
+		if (!(prop in aliases)) {
+			// no alias return selection
+			return prop;
+		}
+
 		if (typeof alias === "function") {
+
 			return alias();
 		}
 
@@ -91,9 +127,14 @@ const cmdAlias = {
 
 const optAliases = {
 	"--dev": ["--save-dev", "--dev", "-D"],
-	"--exact": ["--save-exact", "--exact", "-E"],
+	"--no-dev": ["--no-dev", "--ignore-dev"],
 	"--optional": ["--save-optional", "--optional", "-O"],
+	"--no-optional": ["--no-optional", "--ignore-optional"],
 	"--peer": ["--save-peer", "--peer", "-P"],
+	"--no-peer": ["--no-peer", "--ignore-peer"],
+	"--exact": ["--save-exact", "--exact", "-E"],
+	"--tilde": ["--save-tilde", "--tilde", "-T"],
+	"--global": ["--global", "-g"],
 };
 
 function parseArgs(argv) {
@@ -156,8 +197,9 @@ module.exports = (argv) => {
 	}
 
 	const {command, args} = func(parseArgs(argv));
+	const filteredArgs = args.filter(Boolean);
 
 	// eslint-disable-next-line no-console
-	console.log(`\n${command} ${args.join(" ")}\n`);
-	spawnSync(command, args, { shell: true, stdio: "inherit" });
+	console.log(`\n${command} ${filteredArgs.join(" ")}\n`);
+	spawnSync(command, filteredArgs, { shell: true, stdio: "inherit" });
 };
