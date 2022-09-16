@@ -50,7 +50,7 @@ function npm({command, options, packages}) {
 		"--optional": "--save-optional",
 		"--peer": () => {
 			// eslint-disable-next-line no-console
-			console.error("NPM doesn't have a --save-peer option");
+			console.error("NPM doesn't have a --save-peer option. Dependencies will be installed but not saved.");
 			return "--no-save";
 		},
 	};
@@ -123,7 +123,7 @@ function parseArgs(argv) {
 			if (aliases.includes(argv[0])) {
 				options.push(opt);
 				argv.splice(i, 1);
-				// i--;
+				i--;
 				break;
 			}
 		}
