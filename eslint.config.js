@@ -20,8 +20,6 @@ module.exports = [
 			},
 		},
 		rules: {
-			"valid-jsdoc": 1,
-
 			"block-scoped-var": 2,
 			"curly": 2,
 			"default-case": 2,
