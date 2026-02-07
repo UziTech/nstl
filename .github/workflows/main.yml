@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - master
+permissions:
+  contents: read
 
 jobs:
 
@@ -46,6 +48,11 @@ jobs:
         run: npm run lint
 
   Release:
+    permissions:
+      contents: write # to be able to publish a GitHub release
+      issues: write # to be able to comment on released issues
+      pull-requests: write # to be able to comment on released pull requests
+      id-token: write # to enable use of OIDC for trusted publishing and npm provenance
     needs: [Test, Coverage, Lint]
     if: |
       github.ref == 'refs/heads/master' &&
@@ -63,5 +70,4 @@ jobs:
       - name: Release 🎉
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npx semantic-release
