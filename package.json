@@ -13,7 +13,7 @@
   "scripts": {
     "test": "jest --verbose",
     "test:cover": "jest --coverage",
-    "lint": "eslint ."
+    "lint": "eslint"
   },
   "repository": {
     "type": "git",
