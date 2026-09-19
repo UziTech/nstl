@@ -206,7 +206,7 @@ describe("index", () => {
 			runTest("pnpm", ["remove", "--save-exact", "p1", "p2"], ["un", opt, "p1", "p2"], pnpmLock);
 			runTest("npm", ["install", "--save-exact"], ["i", opt]);
 			runTest("yarn", ["install", "--tilde"], ["i", opt], yarnLock);
-			runTest("pnpm", ["install", "--save-exact"], ["i", opt], pnpmLock);
+			runTest("pnpm", ["install", "--tilde"], ["i", opt], pnpmLock);
 		}
 	});
 
