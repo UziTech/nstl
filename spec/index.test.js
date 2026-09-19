@@ -7,6 +7,7 @@ const rootModule = require.resolve("..");
 const srcModule = require.resolve("../src/index.js");
 const originalSpawnSync = childProcess.spawnSync;
 const originalExistsSync = fs.existsSync;
+let logMock;
 
 function loadNstl(spawnSync, existsSync) {
 	childProcess.spawnSync = spawnSync;
@@ -29,7 +30,7 @@ function runTest(command, args, argv = [], file = null) {
 
 		nstl(argv);
 
-		assert.deepEqual(console.log.mock.calls.at(-1).arguments, [
+		assert.deepEqual(logMock.mock.calls.at(-1).arguments, [
 			`\n${command} ${args.join(" ")}\n`,
 		]);
 		assert.equal(spawnSync.mock.calls.length, 1);
@@ -48,7 +49,7 @@ const yarnLock = /yarn.lock$/;
 const pnpmLock = /pnpm-lock.yaml$/;
 
 beforeEach(() => {
-	mock.method(console, "log", () => {});
+	logMock = mock.method(console, "log", () => {});
 	mock.method(console, "error", () => {});
 });
 
