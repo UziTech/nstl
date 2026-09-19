@@ -9,7 +9,6 @@ module.exports = [
 				...globals.browser,
 				...globals.node,
 				...globals.es6,
-				...globals.jest,
 			},
 			parserOptions: {
 				sourceType: "module",
